@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEOMODZ</title>
+</head>
+<body>
+    <style>
+   /* Estilo geral */
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../src/img/fundo1.jpg') no-repeat center center fixed;
+    display: flex;
+    background-size: 40.5%;
+      
+      background-color: black;
+     
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: monospace;
+    color: red;
+}
+
+
+.terminal {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 30px;
+    margin: 50px auto;
+    max-width: 900px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px red;
+    text-align: center;
+}
+
+/* Botões centralizados */
+.options {
+    display: flex;
+    flex-direction: column; /* Organiza os botões verticalmente */
+    align-items: center; /* Centraliza os botões horizontalmente */
+    gap: 20px; /* Espaçamento entre os botões */
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    background-color: black;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+    border: 2px solid red;
+    border-radius: 5px;
+    width: 200px; /* Tamanho consistente para os botões */
+}
+
+button:hover {
+    background-color: red;
+    color: black;
+}
+            </style>
+    <!-- Painel LEOMODZ -->
+    <div class="terminal panel" id="panel-leomodz">
+        <h1>PAINEL LEOMODZ</h1>
+        <div class="options">
+           <button onclick="spamSMS()">Spam SMS</button>  <!-- ver numero pra isso -->
+            <button onclick="consultData()">Consultar Dados </button>
+            <button onclick="banNumber()">Ban Número</button><!-- Txt de suporte pra isso -->
+            <button onclick="sendAnonymousSMS()">Enviar SMS Anônimo</button><!--Ver metodo pra isso -->
+            <button onclick="metodos()">Metodos</button><!--Ver metodo pra isso -->
+
+
+            <!-- Botão de Sair no painel -->
+            <button onclick="logout()">Sair</button>
+        </div>
+    </div>
+
+    <script>
+function metodos(){
+    window.location.href = "metodos.html"
+}        
+
+function consultData(){
+    window.location.href = "./consulta.html"
+    return;
+}
+
+function banNumber() {
+    const numero = prompt("Digite o número: ");
+    
+    if (!numero) {
+        alert("Número inválido ou não inserido.");
+        return;
+    }
+
+    const emailSuporte = "support@whatsapp.com";
+    const assunto = "Desativação de número perdido";
+    const corpo = `Olá, eu perdi todos meus documentos junto com meu celular e preciso imediatamente que desativem meu número: +${numero}`;
+
+    // Criação do link mailto para abrir o cliente de e-mail com os dados preenchidos
+    const mailtoLink = `mailto:${emailSuporte}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+
+    // Redireciona para o cliente de e-mail
+    window.location.href = mailtoLink;
+}
+
+
+
+
+function sendAnonymousSMS(){
+    alert("Opção futura...")
+}
+function spamSMS(){
+    alert("Opção futura...")
+}
+function logout() {
+        window.location.href = "../index.html"
+        }
+
+    </script>
+</body>
+</html>

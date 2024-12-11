@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta - APIs</title>
+    <style>
+        /* Estilos principais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1b1b1b;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        
+        h1, h4 {
+            text-align: center;
+            color: #e60b0b;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        h3 {
+            color: #f51313;
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.1em;
+            width: 80%;
+            max-width: 400px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        button {
+            background-color: #eb0808;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #be1e1e;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        #resultado-cnpj, #resultado-cpf, #resultado-cep, #resultado-nome, #resultado-ddd {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.1em;
+        }
+
+        p {
+            color: #ecf0f1;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px;
+            text-align: center;
+            background-color: #010d1b62;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer {
+            text-align: center;
+            color: #ecf0f1;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo à área de consulta</h1>
+        <h3>Por favor, selecione uma opção:</h3>
+
+        <!-- Consulta CNPJ -->
+        <label for="cnpj">
+            <h4>CNPJ</h4>
+            <input type="text" id="cnpj" placeholder="Digite o CNPJ">
+            <button onclick="consultarCNPJ()">Pesquisar</button>
+        </label>
+        <div id="resultado-cnpj"></div>
+
+        <!-- Consulta CEP -->
+
+        <label for="cep">
+            <h4>CEP</h4>
+            <input type="text" id="cep" placeholder="Digite o CEP">
+            <button onclick="consultarCEP()">Pesquisar</button>
+        </label>
+        <div id="resultado-cep"></div>
+
+        <!-- Consulta Nome -->
+        <label for="nome">
+            <h4>Nome</h4>
+            <input type="text" id="nome" placeholder="Digite o nome">
+            <button onclick="consultarNome()">Pesquisar</button>
+        </label>
+        <div id="resultado-nome"></div>
+
+        <!-- Consulta DDD -->
+    <label for="ddd">
+        <h4>DDD</h4>
+        <input type="text" id="ddd" placeholder="Digite o DDD" maxlength="2">
+        <button onclick="consultarDDD()">Pesquisar</button>
+    </label>
+    <div id="resultado-ddd"></div>
+
+    <div class="footer">
+        <p>By LEOMODZ</p>
+    </div>
+
+    <script>
+        // Função para consultar o DDD usando a API BrasilAPI
+        function consultarDDD() {
+            let ddd = document.getElementById('ddd').value.replace(/\D/g, '');
+
+            if (ddd.length !== 2) {
+                alert('Por favor, insira um DDD válido');
+                return;
+            }
+
+            let url = `https://brasilapi.com.br/api/ddd/v1/${ddd}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        document.getElementById('resultado-ddd').innerHTML = "<p>Erro na consulta do DDD!</p>";
+                    } else {
+                        document.getElementById('resultado-ddd').innerHTML = `
+                            <h3>Dados do DDD</h3>
+                            <p>DDD: ${ddd}</p>
+                            <p>Estado: ${data.state}</p>
+                            <p>Cidades: ${data.cities}</p>
+                            
+                        `;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('resultado-ddd').innerHTML = "<p>Erro na consulta do DDD!</p>";
+                });
+        }
+        // Função para consultar o CNPJ usando a ReceitaWS
+        function consultarCNPJ() {
+            let cnpj = document.getElementById('cnpj').value.replace(/\D/g, '');
+
+            if (cnpj.length !== 14) {
+                alert('Por favor, insira um CNPJ válido');
+                return;
+            }
+
+            let url = `https://brasilapi.com.br/api/cnpj/v1/${cnpj}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.situacao_cadastral !== 2) {
+                        document.getElementById('resultado-cnpj').innerHTML = "<p>Erro: CNPJ não está ativo!</p>";
+                    } else {
+                        document.getElementById('resultado-cnpj').innerHTML = `
+                            <h3>Dados do CNPJ</h3>
+                            <p>Razão Social: ${data.razao_social}</p>
+                            <p>CNPJ: ${data.cnpj}</p>
+                            <p>Nome Fantasia: ${data.nome_fantasia}</p>
+                            <p>Endereço: ${data.descricao_tipo_de_logradouro} ${data.logradouro}, ${data.numero}, ${data.complemento}, ${data.bairro} - ${data.municipio} / ${data.uf}</p>
+                            <p>Telefone: ${data.ddd_telefone_1}</p>
+                            <p>Data de Início da Atividade: ${data.data_inicio_atividade}</p>
+                            <p>CNAE Fiscal: ${data.cnae_fiscal} - ${data.cnae_fiscal_descricao}</p>
+                            <h4>Socios:</h4>
+                            <ul>
+                                ${data.qsa.map(socio => `
+                                    <li>
+                                        Nome: ${socio.nome_socio} - CPF/CNPJ: ${socio.cnpj_cpf_do_socio} - Percentual de Capital: ${socio.percentual_capital_social}%
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('resultado-cnpj').innerHTML = "<p>Erro na consulta de CNPJ!</p>";
+                });
+        }
+
+        // Função para consultar o CEP usando a API ViaCEP
+        function consultarCEP() {
+            let cep = document.getElementById('cep').value.replace(/\D/g, '');
+
+            if (cep.length != 8) {
+                alert('Por favor, insira um CEP válido');
+                return;
+            }
+
+            let url = `https://brasilapi.com.br/api/cep/v1/${cep}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.erro) {
+                        document.getElementById('resultado-cep').innerHTML = "<p>Erro na consulta do CEP!</p>";
+                    } else {
+                        document.getElementById('resultado-cep').innerHTML = `
+                            <h3>Dados do CEP</h3>
+                            <p>Cep: ${data.cep}</p>
+                            <p>Local: ${data.state}</p>
+                            <p>Cidade: ${data.city}</p>
+                            <p>No: ${data.neighborhood}</p>
+                            <p>Rua: ${data.street}</p>
+                            <p>Serviço: ${data.service}</p>
+                                                   `;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('resultado-cep').innerHTML = "<p>Erro na consulta do CEP!</p>";
+                });
+        }
+
+        // Função para consultar o Nome usando a API do IBGE
+        function consultarNome() {
+            let nome = document.getElementById('nome').value.trim();
+
+            if (nome.length === 0) {
+                alert('Por favor, insira um nome válido');
+                return;
+            }
+
+            let url = `https://servicodados.ibge.gov.br/api/v2/censos/nomes/${nome}`;
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length === 0) {
+                        document.getElementById('resultado-nome').innerHTML = "<p>Erro: Nome não encontrado!</p>";
+                    } else {
+                        document.getElementById('resultado-nome').innerHTML = `
+                            <h3>Dados do Nome</h3>
+                            <p>Nome: ${data[0].nome}</p>
+                            <p>Frequência: ${data[0].frequencia}</p>
+                            <p>Sexo: ${data[0].sexo}</p>
+                            <p>Data do Censo: ${data[0].data}</p>
+                        `;
+                    }
+                })
+                .catch(err => {
+                    document.getElementById('resultado-nome').innerHTML = "<p>Erro na consulta do nome!</p>";
+                });
+        }
+        
+    </script>
+</body>
+</html>

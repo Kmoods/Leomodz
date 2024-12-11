@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEOMODZ</title>
+    <style>
+/* Estilo geral */
+body {
+            margin: 0;
+            padding: 0;
+            background: url('./src/img/fundo1.jpg') no-repeat center center fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: 35.5%;
+      
+      background-color: black;
+            height: 100vh;
+            font-family: monospace;
+            color: red;
+        }
+
+        .terminal {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            margin: 50px auto;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px red;
+            text-align: center;
+        }
+
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid red;
+            background-color: black;
+            color: red;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: black;
+            color: red;
+            font-size: 16px;
+            cursor: pointer;
+            border: 2px solid red;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: red;
+            color: black;
+        }
+
+        .user-list {
+            text-align: left;
+            margin: 20px auto;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid red;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div class="terminal" id="login-screen">
+        <h1>LEOMODZ</h1>
+        <p>Insira o login e senha:</p>
+        <input type="text" id="username" placeholder="Login"><br>
+        <input type="password" id="password" placeholder="Senha"><br>
+        <button onclick="validateLogin()">Entrar</button>
+        <p id="error-message" style="color: red; display: none;">Login ou senha incorretos!</p>
+    </div>
+
+
+    <script>
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Logins fixos (estáticos)
+            if (username === "LEOMODZ" && password === "1234") {
+              window.location.href = "./info/painel_user.html"
+                return;
+            
+            } else {
+                document.getElementById('error-message').style.display = 'block';
+            }
+        }
+    </script>
+   
+</body>
+</html>
